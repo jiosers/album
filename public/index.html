@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的相册</title>
+	</head>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style media="screen">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		html,body,.container-fluid{
+			height: 100%;
+		}
+		.main-content{
+			height: 100%;
+		}
+		.mian-header{
+			height: 50px;
+			background-color: #367fa9;
+			color: #FFFFFF;
+			text-align: center;
+			line-height: 50px;
+			font-size: 20px;
+		}
+		.left-album{
+			min-height: 100%;
+			border-right: 1px solid #E0E2E4;
+			padding: 0px;
+		}
+		.form-inline{
+			border-bottom: 1px solid #E0E2E4;
+		}
+	</style>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<div class="mian-header">
+						我的相冊
+					</div>
+				</div>
+			</div>
+			<div class="row main-content" >
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 left-album" >
+					<div style="padding:15px ;border-bottom: 1px solid #E0E2E4;">
+						<div class="input-group mb-3">
+						  	<input type="text" class="form-control" placeholder="请输入相册名字" >
+						  	<div class="input-group-append">
+						    	<button class="btn btn-outline-primary" type="button">添加相册</button>
+						  	</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9 col-md-8 col-sm-6 col-xs-12">
+					我是右边边
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	</body>
+</html>
