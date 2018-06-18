@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>我的相册</title>
 	</head>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<style media="screen">
 		html,body,.container-fluid{
 			height: 100%;
@@ -17,12 +17,15 @@
 		.album-item-slected{
 			background-color:#367fa9;
 		}
-		.album-item:hover{
+		.album-item:not(.album-item-slected):hover{
 			background-color:#E0E2E4;
 		}
 		.img-content img{
 			height: 200px;
 			width: 100%;
+		}
+		#photoList{
+			min-height: 200px;
 		}
 	</style>
 	<body>
@@ -39,53 +42,39 @@
 					<div class="row" style="height: 58px; border-bottom: 1px solid #E0E2E4;">
 						<div class="col" style="padding-top: 10px;padding-bottom: 10px;">
 							<div class="input-group mb-3">
-							  	<input type="text" class="form-control" placeholder="请输入相册名字" >
+							  	<input type="text" id="albumName" class="form-control" placeholder="请输入相册名字" >
 							  	<div class="input-group-append">
 							    	<button class="btn btn-outline-primary" type="button" id="addAlbum">添加相册</button>
 							  	</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 album-item">fdaf</div>	
+					<div class="row" id="ablumList">
+						<!--<div class="col-lg-12 album-item">fdaf</div>	
 						<div class="col-lg-12 album-item">fdaf</div>
-						<div class="col-lg-12 album-item">fdaf</div>
+						<div class="col-lg-12 album-item">fdaf</div>-->
 					</div>
 				</div>
 				<div class="col-lg-9 col-md-8 col-sm-6 col-xs-12">
 					<div class="row" style="height: 58px; border-bottom: 1px solid #E0E2E4;">
 						<div class="col" style="padding-top: 10px;padding-bottom: 10px;">
-							<a href="#">添加图片</a>
+							<a href="#" onclick="addPhoto()">添加图片</a>
 						</div>
+						<input type="file" class="file-input" name="fileimg" id="fileInput" style="display: none;"/>
 					</div>
-					<div class="row" >
-						<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
+					<div class="row" id="photoList">
+						<!--<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
 							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div><div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
-							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div>
-						<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
-							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div>
-						<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
-							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div>
-						<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
-							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div>
-						<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content">
-							<img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" />
-						</div>
+						</div>-->
 					</div>
 					<div class="row" >
 						<div class="col-lg-12">
 							<nav aria-label="Page navigation example">
 							  <ul class="pagination">
-							    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							    <li class="page-item"><a class="page-link" href="#">1</a></li>
-							    <li class="page-item"><a class="page-link" href="#">2</a></li>
-							    <li class="page-item"><a class="page-link" href="#">3</a></li>
-							    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+							  	<li class="page-item"  style="margin-right: 10px;"><a class="page-link" href="#">总共:<span id="pageTotal">0</span></a></li>
+							  	<li class="page-item" id="pageTotal" style="margin-right: 10px;"><a class="page-link" href="#">当前页:<span id="currentPage">1</span></a></li>
+							    <li class="page-item"><a class="page-link" href="#">上一页</a></li>
+							    <li class="page-item"><a class="page-link" href="#">下一页</a></li>
 							  </ul>
 							</nav>
 						</div>
@@ -93,15 +82,125 @@
 				</div>
 			</div>
 		</div>
-		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  		<script type="text/javascript" src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.js"></script>
+  		<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
-			(function ($) {
+			var photo={
+				page:1,
+				pageSize:5,
+				total:0,
+			}
+			var data={
+				currentAlbumsId:0,//当前相册索引
+				currentPage:1,
+				/*albums=[],//相册list
+				photos=[],//图片list*/
+			}
+			//获取相册
+			function getAlbumList(){
+				$('#ablumList').html("");
+				$.ajax({
+					type:'POST',
+					url:'/albumList',
+					dataType:'json',
+					success:function(response){
+						if(response.state===1){
+							response.data.forEach((val,index)=>{
+								$('#ablumList').append(`<div class="col-lg-12 album-item" onclick="switchAlbum(this,${val.key})">${val.name}</div>`);
+							});
+						}
+					}
+				});
+			};
+			//切换相册
+			function switchAlbum(event,key){
+				$(event).addClass("album-item-slected");
+				$(event).siblings().removeClass("album-item-slected");
+				data.currentAlbumsId=key;
+				photo.page=1;
+				getPhoto();
+			};
+			//增加相册
+			$("#addAlbum").click(function(){
+				let albumName=$("#albumName").val();
+				if(!albumName){
+					alert("请输入相册名字");
+					return;
+				}
+				let params={
+					albumName:albumName
+				}
+				$.ajax({
+					type:'POST',
+					url:'/addAlbum',
+					dataType:'json',
+					data:params,
+					success:function(response){
+						if(response.state===1){
+							getAlbumList();
+						}else{
+							alert(response.msg);
+						}
+					}
+				});
+			});
+			//得到相册
+			function getPhoto(){
+				let params={
+					page:photo.page,
+					pageSize:photo.pageSize,
+					currentAlbumsId:data.currentAlbumsId
+				}
+				$.ajax({
+					type:'POST',
+					url:'/photoList',
+					dataType:'json',
+					data:params,
+					success:function(response){
+						if(response.state===1){
+							response.data.forEach((val,index)=>{
+								$('#ablumList').append(`<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content"> 
+									<img src="/photo/img/${val}"></img>
+								</div>`);
+							});
+							$("#pageTotal").val(response.total);
+						}else{
+							alert("获取图片失败");
+						}
+					}
+				});
+			};
+			//添加图片
+			function addPhoto(){
+				$("#fileInput").click();
+			}
+			$("#fileInput").change(function(){
+				let data=new FormData();
+				data.append('file',$("#fileInput").get(0).files[0]);
+				data.append('currentAlbumsId',data.currentAlbumsId);
+				$.ajax({
+			      type: "POST",
+			      url: "/addImg",
+			      data: data,
+			      processData : false, 
+			      contentType : false,  
+			      success: function (response) {
+			      	if(response.state===1){
+			      		getPhoto();
+			      		alert(response.msg)
+			      	}else{
+			      		alert(response.msg)
+			      	}
+			      }
+			    });
+			})
+			$(document).ready(function(){
 				$("#addAlbum").click(function(){
-					console.log("fdafa")
-				})
-			})(jQuery)
+					console.log("ssss")
+				});
+				getAlbumList();
+			})
 		</script>
 	</body>
 </html>
