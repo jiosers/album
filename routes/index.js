@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
-const formidable = require('formidable');
+var formidable=require('formidable');
 
 let albumNames = require('./albums.json');
 let photos=require('./photos.json');
@@ -67,20 +67,20 @@ router.post('/addImg',(req,res,next)=>{
 	form.uploadDir = "./imgs";
 	form.keepExtensions = true;
 	form.parse(req, function (error, fields, files) {
+		console.log(fields.currentAlbumsId);
 		const currentAlbumsId=fields.currentAlbumsId||albumNames[0].key;
-		console.log(fields);
 		if(error) {
 		    resData['state']=ERROR;
 		    resData['msg']=error;
 		}else{
 			resData['state']=SUCCESS;
-		  photos.map(val=>{
+		  	photos.map(val=>{
 				if(val.mapKey==currentAlbumsId){
 					val.data.push(files.file.path.substring(5));
 				}
 				return val;
 			})
-		  fs.writeFileSync(path.join(__dirname,'photos.json'),JSON.stringify(photos));
+		  	fs.writeFileSync(path.join(__dirname,'photos.json'),JSON.stringify(photos));
 		}
 		res.send(resData);
 	});

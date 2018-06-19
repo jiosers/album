@@ -26,6 +26,8 @@
 		}
 		#photoList{
 			min-height: 200px;
+			margin-bottom: 15px;
+			margin-top: 15px;
 		}
 	</style>
 	<body>
@@ -99,13 +101,13 @@
 			}
 			//获取相册
 			function getAlbumList(){
-				$('#ablumList').html("");
 				$.ajax({
 					type:'POST',
 					url:'/albumList',
 					dataType:'json',
 					success:function(response){
 						if(response.state===1){
+							$('#ablumList').html("");
 							response.data.forEach((val,index)=>{
 								$('#ablumList').append(`<div class="col-lg-12 album-item" onclick="switchAlbum(this,${val.key})">${val.name}</div>`);
 							});
@@ -119,6 +121,7 @@
 				$(event).siblings().removeClass("album-item-slected");
 				data.currentAlbumsId=key;
 				photo.page=1;
+				console.log("aa:",data.currentAlbumsId);
 				getPhoto();
 			};
 			//增加相册
@@ -159,12 +162,13 @@
 					data:params,
 					success:function(response){
 						if(response.state===1){
+							$('#photoList').html("");
 							response.data.forEach((val,index)=>{
-								$('#ablumList').append(`<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content"> 
-									<img src="/photo/img/${val}"></img>
+								$('#photoList').append(`<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 img-content"> 
+									<img src="/img/${val}"></img>
 								</div>`);
 							});
-							$("#pageTotal").val(response.total);
+							$("#pageTotal").text(response.total);
 						}else{
 							alert("获取图片失败");
 						}
@@ -176,23 +180,25 @@
 				$("#fileInput").click();
 			}
 			$("#fileInput").change(function(){
-				let data=new FormData();
-				data.append('file',$("#fileInput").get(0).files[0]);
-				data.append('currentAlbumsId',data.currentAlbumsId);
+				console.log("fff:",data.currentAlbumsId)
+				let formData=new FormData();
+				formData.append('file',$("#fileInput").get(0).files[0]);
+				formData.append('currentAlbumsId',data.currentAlbumsId);
 				$.ajax({
-			      type: "POST",
-			      url: "/addImg",
-			      data: data,
-			      processData : false, 
-			      contentType : false,  
-			      success: function (response) {
-			      	if(response.state===1){
-			      		getPhoto();
-			      		alert(response.msg)
-			      	}else{
-			      		alert(response.msg)
+			      	type: "POST",
+			      	url: "/addImg",
+			      	data: formData,
+			      	cache: false,
+		    		contentType: false,
+			    	processData: false,
+			      	success: function (response) {
+				      	if(response.state===1){
+				      		getPhoto();
+				      		alert(response.msg)
+				      	}else{
+				      		alert(response.msg)
+				      	}
 			      	}
-			      }
 			    });
 			})
 			$(document).ready(function(){
